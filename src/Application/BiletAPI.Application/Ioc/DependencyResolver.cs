@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
+using BiletAPI.Application.AutoMapper;
 using BiletAPI.Application.IRepositories;
 using BiletAPI.Application.Service.UserServices;
 using BiletAPI.Infrastructure.Repositories;
@@ -24,7 +25,7 @@ namespace BiletAPI.Application.Ioc
             //AUTOMAPPER
             builder.Register(context => new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<Mapper>();
+                cfg.AddProfile<Mapping>();
             })).AsSelf().SingleInstance();
 
             builder.Register(c =>

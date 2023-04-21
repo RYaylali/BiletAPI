@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace BiletAPI.Application.AutoMapper
 {
-    public class Mapper : Profile
+    public class Mapping : Profile
     {
-        public Mapper()
+        public Mapping()
         {
             CreateMap<User, UserRegisterDto>().ReverseMap();
             CreateMap<User, LoginDto>().ReverseMap();
         }
-        public Mapper(string profileName) : base(profileName)
+        public Mapping(string profileName) : base(profileName)
         {
         }
     }

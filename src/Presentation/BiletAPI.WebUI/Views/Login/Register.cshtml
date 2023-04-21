@@ -1,0 +1,60 @@
+﻿@model UserRegisterDto
+@{
+	Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title> Kayıt Ol </title>
+	<link rel="stylesheet" href="/SignupForm/style.css">
+</head>
+<body>
+	<div class="wrapper">
+		<h2>Kayıt Ol</h2>
+		<form asp-action="Register" asp-controller="Login">
+			<div class="input-box">
+				<input asp-for="Name" type="text" placeholder="İsim Giriniz" required>
+				<span asp-validation-for="Name" class="text-danger" style="margin-left:15px; font-size:12px;"></span>
+			</div>
+			<div class="input-box">
+				<input asp-for="Surname" type="text" placeholder="Soyisim Giriniz" required>
+				<span asp-validation-for="Surname" class="text-danger" style="margin-left:15px; font-size:12px;"></span>
+			</div>
+			<div class="input-box">
+				<input asp-for="Age" type="number" placeholder="Yaşınızı Giriniz" required>
+				<span asp-validation-for="Age" class="text-danger" style="margin-left:15px; font-size:12px;"></span>
+			</div>
+			<div class="input-box">
+				<label asp-for="Gender">Gender:</label>
+				<div class="radio-buttons">
+					<label>
+						<input type="radio" asp-for="Gender" value="false"> Female
+					</label>
+					<label>
+						<input type="radio" asp-for="Gender" value="true"> Male
+					</label>
+				</div>
+			</div>
+			<div class="input-box">
+				<input asp-for="Mail" type="email" placeholder="Mailinizi Giriniz" required>
+				<span asp-validation-for="Mail" class="text-danger" style="margin-left:15px; font-size:12px;"></span>
+			</div>
+			<div class="input-box">
+				<input asp-for="PhoneNumber" type="number" placeholder="Şifrenizi Giriniz" required>
+				<span asp-validation-for="PhoneNumber" class="text-danger" style="margin-left:15px; font-size:12px;"></span>
+			</div>
+			<div class="input-box button">
+				<input type="Submit" value="Şimdi Kayıt Ol">
+			</div>
+			<div class="text">
+				<h3>Kayıtlı mısınız? <a href="/Login/Login/">Giriş Yap</a></h3>
+			</div>
+		</form>
+	</div>
+
+</body>
+</html>
