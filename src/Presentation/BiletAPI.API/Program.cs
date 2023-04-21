@@ -1,3 +1,6 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using BiletAPI.Application.Ioc;
 using BiletAPI.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +22,14 @@ namespace BiletAPI.API
 			{
 				option.UseSqlServer("server=DESKTOP-491CL38\\YAYLALISERVER22;database=BiletDB;Trusted_Connection=True;");
 			});
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
-			var app = builder.Build();
+            builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+            {
+                builder.RegisterModule(new DependencyResolver());
+            });
+
+            var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())

@@ -7,10 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="AutoMapper\" />
-    <Folder Include="Ioc\" />
-    <Folder Include="Models\" />
-    <Folder Include="Service\" />
+    <Folder Include="Models\Vms\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="7.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\BiletAPI.Infrastructure\BiletAPI.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
