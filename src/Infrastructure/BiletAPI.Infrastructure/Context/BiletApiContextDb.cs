@@ -21,10 +21,8 @@ namespace BiletAPI.Infrastructure.Context
 				.WithOne(x => x.Ticket)
 				.HasForeignKey<Ticket>(x => x.ExpeditionId)
 				.OnDelete(DeleteBehavior.Restrict);
-			
-
 		}
-		public DbSet<User> Customers { get; set; }
+		public DbSet<Customer> Customers { get; set; }
 		public DbSet<Bus> Buses { get; set; }
 		public DbSet<City> Cities { get; set; }
 		public DbSet<Expedition> Expeditions { get; set; }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiletAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(BiletApiContextDb))]
-    [Migration("20230423123258_mig2")]
-    partial class mig2
+    [Migration("20230423153016_mig1")]
+    partial class mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,97 +84,7 @@ namespace BiletAPI.Infrastructure.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("BiletAPI.Domain.Entities.Expedition", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BusID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("CarFare")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DepartureTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Destination")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ExpeditionCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PlaceOfDeparture")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("TicketId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("BusID");
-
-                    b.ToTable("Expeditions");
-                });
-
-            modelBuilder.Entity("BiletAPI.Domain.Entities.Ticket", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ExpeditionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PNR")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ExpeditionId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Tickets");
-                });
-
-            modelBuilder.Entity("BiletAPI.Domain.Entities.User", b =>
+            modelBuilder.Entity("BiletAPI.Domain.Entities.Customer", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
@@ -229,41 +139,144 @@ namespace BiletAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("BiletAPI.Domain.Entities.Expedition", b =>
                 {
-                    b.HasOne("BiletAPI.Domain.Entities.Bus", "Bus")
-                        .WithMany()
-                        .HasForeignKey("BusID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Navigation("Bus");
+                    b.Property<Guid>("BusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("CarFare")
+                        .HasColumnType("float");
+
+                    b.Property<Guid>("CityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DepartureTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Destination")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExpeditionCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlaceOfDeparture")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("TicketId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BusID");
+
+                    b.HasIndex("CityId");
+
+                    b.ToTable("Expeditions");
                 });
 
             modelBuilder.Entity("BiletAPI.Domain.Entities.Ticket", b =>
                 {
-                    b.HasOne("BiletAPI.Domain.Entities.Expedition", "Expedition")
-                        .WithOne("Ticket")
-                        .HasForeignKey("BiletAPI.Domain.Entities.Ticket", "ExpeditionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasOne("BiletAPI.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
-                    b.Navigation("Expedition");
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Navigation("User");
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ExpeditionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PNR")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ExpeditionId")
+                        .IsUnique();
+
+                    b.ToTable("Tickets");
                 });
 
-            modelBuilder.Entity("BiletAPI.Domain.Entities.User", b =>
+            modelBuilder.Entity("BiletAPI.Domain.Entities.Customer", b =>
                 {
                     b.HasOne("BiletAPI.Domain.Entities.Expedition", "Expedition")
                         .WithMany()
                         .HasForeignKey("ExpeditionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Expedition");
+                });
+
+            modelBuilder.Entity("BiletAPI.Domain.Entities.Expedition", b =>
+                {
+                    b.HasOne("BiletAPI.Domain.Entities.Bus", "Bus")
+                        .WithMany()
+                        .HasForeignKey("BusID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BiletAPI.Domain.Entities.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bus");
+
+                    b.Navigation("City");
+                });
+
+            modelBuilder.Entity("BiletAPI.Domain.Entities.Ticket", b =>
+                {
+                    b.HasOne("BiletAPI.Domain.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BiletAPI.Domain.Entities.Expedition", "Expedition")
+                        .WithOne("Ticket")
+                        .HasForeignKey("BiletAPI.Domain.Entities.Ticket", "ExpeditionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
 
                     b.Navigation("Expedition");
                 });

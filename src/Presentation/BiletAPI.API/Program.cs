@@ -23,9 +23,12 @@ namespace BiletAPI.API
 			{
 				builder.RegisterModule(new DependencyResolver());
 			});
+			
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
+			builder.Services.AddHttpContextAccessor();
+			builder.Services.AddMvc();
 			builder.Services.AddSwaggerGen();
 			builder.Services.AddDbContext<BiletApiContextDb>(option =>
 			{
@@ -51,6 +54,7 @@ namespace BiletAPI.API
 					.RequireAuthenticatedUser()
 					.Build();
 			});
+			
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.

@@ -1,0 +1,16 @@
+﻿@model CityDto
+@{
+    ViewData["Title"] = "Şehir ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 style="text-align:center">Şehir Ekle</h1>
+<form asp-action="AddCity" asp-controller="City" style="display:flex; justify-content:center; align-items:center;">
+		<div class="input-box">
+			<input asp-for="CityName" type="text" placeholder="Şehrin Adını Giriniz" required>
+			<span asp-validation-for="CityName" class="text-danger" style="margin-left:15px; font-size:12px;"></span>
+		</div>
+		<div class="input-box button">
+			<input type="Submit" value="+ Ekle">
+		</div>
+	</form>

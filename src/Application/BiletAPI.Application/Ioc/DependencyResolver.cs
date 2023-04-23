@@ -2,7 +2,9 @@
 using AutoMapper;
 using BiletAPI.Application.AutoMapper;
 using BiletAPI.Application.IRepositories;
+using BiletAPI.Application.Service.CityServices;
 using BiletAPI.Application.Service.UserServices;
+using BiletAPI.Infrastructure.IRepositories;
 using BiletAPI.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
@@ -18,9 +20,11 @@ namespace BiletAPI.Application.Ioc
         {
             //Repository 
             builder.RegisterType<UserRepo>().As<IUserRepo>().InstancePerLifetimeScope();
+            builder.RegisterType<CityRepo>().As<ICityRepo>().InstancePerLifetimeScope();
 
             //Services
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
+            builder.RegisterType<CityService>().As<ICityService>().InstancePerLifetimeScope();
 
             //AUTOMAPPER
             builder.Register(context => new MapperConfiguration(cfg =>

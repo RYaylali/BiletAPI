@@ -12,5 +12,10 @@ namespace BiletAPI.Domain.Entities
         public string NumberPlate { get; set; } //Plaka numarası
         public int Seat { get; set; } //Oturacak yer 
         public bool Gender { get; set; } // koltuğu alan kişinin cinsiyeti
+        List<Expedition>? Expeditions { get; set; }
+        public Bus()
+        {
+            Expeditions = new List<Expedition>();
+        }
     }
 }

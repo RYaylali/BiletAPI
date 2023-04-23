@@ -10,7 +10,7 @@ namespace BiletAPI.Domain.Entities
 	public class City :BaseEntity
 	{
         public string CityName { get; set; }
-		List<Expedition> Expeditions { get; set; }
+		List<Expedition>? Expeditions { get; set; }
         public City()
         {
             Expeditions = new List<Expedition>();

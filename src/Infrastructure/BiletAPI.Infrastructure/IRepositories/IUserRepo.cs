@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BiletAPI.Application.IRepositories
 {
-	public interface IUserRepo :IBaseRepo<User>
+	public interface IUserRepo :IBaseRepo<Customer>
 	{
 	}
 }

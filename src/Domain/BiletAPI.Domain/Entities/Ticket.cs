@@ -13,11 +13,11 @@ namespace BiletAPI.Domain.Entities
         public string PNR { get; set; } //BİLET REZERVASYO KODU
         public decimal TotalPrice { get; set; }//Toplam bilet fiyatı
         //biletler bir kişiye ait olabilir
-        public Guid UserId { get; set; }
-        public User  User { get; set; }
+        public Guid? CustomerId { get; set; }
+        public Customer?  Customer { get; set; }
         //bir biletde tek sefer olur   
-        public Guid ExpeditionId { get; set; }
-        public Expedition Expedition { get; set; }
+        public Guid? ExpeditionId { get; set; }
+        public Expedition? Expedition { get; set; }
 
     }
 }

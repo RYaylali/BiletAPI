@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BiletAPI.Domain.Entities
 {
-	public class User :BaseEntity
+	public class Customer :BaseEntity
 	{
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -17,11 +17,11 @@ namespace BiletAPI.Domain.Entities
         public float PhoneNumber { get; set; }
         public string Password { get; set; }
         //BİR KİŞİ BİR SEFERDE YER ALABİLİR
-        public Guid ExpeditionID { get; set; }
-        public Expedition Expedition { get; set; }
+        public Guid? ExpeditionID { get; set; }
+        public Expedition? Expedition { get; set; }
         //bir kişi birden fazla bilet alabilir
-        List<Ticket> Tickets { get; set; }
-        public User()
+        List<Ticket>? Tickets { get; set; }
+        public Customer()
         {
             Tickets = new List<Ticket>();
         }

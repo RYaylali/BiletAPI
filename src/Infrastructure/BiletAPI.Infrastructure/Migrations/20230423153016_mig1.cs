@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BiletAPI.Infrastructure.Migrations
 {
-    public partial class mig2 : Migration
+    public partial class mig1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,6 +53,7 @@ namespace BiletAPI.Infrastructure.Migrations
                     Destination = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CarFare = table.Column<double>(type: "float", nullable: false),
                     DepartureTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     BusID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TicketId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -67,6 +68,12 @@ namespace BiletAPI.Infrastructure.Migrations
                         name: "FK_Expeditions_Buses_BusID",
                         column: x => x.BusID,
                         principalTable: "Buses",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Expeditions_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -107,7 +114,7 @@ namespace BiletAPI.Infrastructure.Migrations
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PNR = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ExpeditionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -118,8 +125,8 @@ namespace BiletAPI.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Tickets", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Tickets_Customers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Tickets_Customers_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -142,22 +149,24 @@ namespace BiletAPI.Infrastructure.Migrations
                 column: "BusID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Expeditions_CityId",
+                table: "Expeditions",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_CustomerId",
+                table: "Tickets",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tickets_ExpeditionId",
                 table: "Tickets",
                 column: "ExpeditionId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tickets_UserId",
-                table: "Tickets",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Cities");
-
             migrationBuilder.DropTable(
                 name: "Tickets");
 
@@ -169,6 +178,9 @@ namespace BiletAPI.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Buses");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
         }
     }
 }

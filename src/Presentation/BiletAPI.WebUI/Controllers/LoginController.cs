@@ -1,5 +1,4 @@
-﻿using BiletAPI.Application.Models.Dtos;
-using BiletAPI.Application.Service.UserServices;
+﻿using BiletAPI.Application.Service.UserServices;
 using BiletAPI.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +8,22 @@ using System;
 using Microsoft.AspNetCore.Authorization;
 using BiletAPI.API.Model;
 using System.Security.Claims;
+using BiletAPI.Application.Models.Dtos.LoginDtos;
+using System.Net.Http;
 
 namespace BiletAPI.WebUI.Controllers
 {
 
 	public class LoginController : Controller
 	{
-		string uri = "https://localhost:7270/api";
+		private readonly HttpClient _httpClient;
+		private readonly string _baseUrl;
+
+		public LoginController(HttpClient httpClient)
+		{
+			_httpClient = httpClient;     
+			_baseUrl = "https://localhost:7270/api";
+		}
 		[HttpGet]
 		public IActionResult Login()
 		{
@@ -24,20 +32,26 @@ namespace BiletAPI.WebUI.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Login(LoginDto model)
 		{
-			using (var httpClient = new HttpClient())
-			{
-				StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json"); //Türkçe karakterini destekleyen json oluşturduk.
 
-				using (var cevap = await httpClient.PostAsync($"{uri}/User/Login/Login", content))
+			if (ModelState.IsValid)
+			{
+				var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+
+				using var response = await _httpClient.PostAsync($"{_baseUrl}/User/Login/Login", content);
+
+				if (response.IsSuccessStatusCode)
 				{
-					string apiCevap = await cevap.Content.ReadAsStringAsync();
-					var identity = HttpContext.User.Identity as ClaimsIdentity;
-					var kullaniciAdi = identity.FindFirst(ClaimTypes.Name)?.Value;
-					ViewBag.KullaniciAdi = kullaniciAdi;
+					// Do something on success, e.g. redirect to home page
+					return RedirectToAction("Index", "HomePage");
+				}
+				else
+				{
+					// Do something on failure, e.g. show error message
+					ModelState.AddModelError("", "Invalid email or password");
 				}
 			}
 
-			return RedirectToAction("Index", "HomePage");
+			return View(model);
 		}
 		[HttpGet]
 		public IActionResult Register()
@@ -47,20 +61,25 @@ namespace BiletAPI.WebUI.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Register(UserRegisterDto model)
 		{
-			using (var httpClient = new HttpClient())
+			if (ModelState.IsValid)
 			{
-				StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json"); //Türkçe karakterini destekleyen json oluşturduk.
+				var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
-				using (var cevap = await httpClient.PostAsync($"{uri}/User/Register/Register", content))
+				using var response = await _httpClient.PostAsync($"{_baseUrl}/User/Register/Register", content);
+
+				if (response.IsSuccessStatusCode)
 				{
-					string apiCevap = await cevap.Content.ReadAsStringAsync();
-
-
+					// Do something on success, e.g. redirect to login page
+					return RedirectToAction("Login");
+				}
+				else
+				{
+					// Do something on failure, e.g. show error message
+					ModelState.AddModelError("", "Registration failed");
 				}
 			}
-			return RedirectToAction("Login");
+
+			return View(model);
 		}
-
-
 	}
 }

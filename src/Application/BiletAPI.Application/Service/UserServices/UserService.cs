@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BiletAPI.Application.IRepositories;
-using BiletAPI.Application.Models.Dtos;
+using BiletAPI.Application.Models.Dtos.LoginDtos;
 using BiletAPI.Domain.Entities;
 using BiletAPI.Domain.Enums;
 using System;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BiletAPI.Application.Service.UserServices
 {
-	public class UserService:IUserService
+	public class UserService : IUserService
 	{
 		private readonly IUserRepo _userRepo;
 		private readonly IMapper _mapper;
@@ -24,8 +24,8 @@ namespace BiletAPI.Application.Service.UserServices
 		{
 			if (model is not null)
 			{
-				var userModel = _mapper.Map<UserRegisterDto, User>(model);
-				var user = new User
+				var userModel = _mapper.Map<UserRegisterDto, Customer>(model);
+				var user = new Customer
 				{
 					ID = Guid.NewGuid(),
 					Status = Status.Active,
@@ -45,16 +45,15 @@ namespace BiletAPI.Application.Service.UserServices
 			}
 			return "Kullanıcı Eklenemedi";
 		}
-		public async Task<string> Login(LoginDto model)
+		public async Task<Customer> Login(LoginDto model)
 		{
 			if (model is not null)
 			{
-				var loginModel = _mapper.Map<LoginDto, User>(model);
-				var loggedUser = _userRepo.GetDefault(user => user.Mail == loginModel.Mail && user.Password == loginModel.Password);
-				return "Giriş İşlemi Başarıyla Gerçekleştirildi.";
+				var loginModel = _mapper.Map<LoginDto, Customer>(model);
+				var loggedUser = _userRepo.GetDefault(user => user.Mail == loginModel.Mail && user.Password == loginModel.Password).FirstOrDefault();
+				return loggedUser;
 			}
-
-			return "Giriş İşlemi Gerçekleştirilemedi";
+			return null;
 		}
 	}
 }

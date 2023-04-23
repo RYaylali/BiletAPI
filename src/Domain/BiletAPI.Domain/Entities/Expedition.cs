@@ -15,20 +15,20 @@ namespace BiletAPI.Domain.Entities
         public double CarFare { get; set; }//bilet ücreti
         public DateTime DepartureTime { get; set; }//Kalkış saati
         //BİR KİŞİ BİRDEN FAZLA SEFERE BAŞKALARI İÇİN BİLET ALABİLİR OLABİLİR
-        List<User> Users { get; set; }
+        List<Customer>? Customers { get; set; }
         //SEFER BİRDEN FAZLA ŞEHİRE OLABİLİR
-        public Guid CityId { get; set; }
-        public City City { get; set; }
+        public Guid? CityId { get; set; }
+        public City? City { get; set; }
         //BİR OTOBÜS TEK BİR SEFERE GİDEBİLİR
-        public Guid BusID { get; set; }
-        public Bus  Bus { get; set; }
+        public Guid? BusID { get; set; }
+        public Bus?  Bus { get; set; }
         //bir sefer bir biletde yer alabilir
-        public Guid TicketId { get; set; }
-        public Ticket Ticket { get; set; }
+        public Guid? TicketId { get; set; }
+        public Ticket? Ticket { get; set; }
 
         public Expedition()
         {
-            Users = new List<User>();
+			Customers = new List<Customer>();
         }
     }
 }

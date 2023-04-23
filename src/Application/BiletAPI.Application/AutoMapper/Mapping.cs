@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using BiletAPI.Application.Models.Dtos;
+using BiletAPI.Application.Models.Dtos.CityDto;
+using BiletAPI.Application.Models.Dtos.LoginDtos;
 using BiletAPI.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,10 @@ namespace BiletAPI.Application.AutoMapper
     {
         public Mapping()
         {
-            CreateMap<User, UserRegisterDto>().ReverseMap();
-            CreateMap<User, LoginDto>().ReverseMap();
+            CreateMap<Customer, UserRegisterDto>().ReverseMap();
+            CreateMap<Customer, LoginDto>().ReverseMap();
+
+            CreateMap<City, CityDto>().ReverseMap();
         }
     }
 }
