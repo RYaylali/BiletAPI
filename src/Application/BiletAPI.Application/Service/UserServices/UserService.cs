@@ -1,6 +1,8 @@
-﻿using BiletAPI.Application.IRepositories;
+﻿using AutoMapper;
+using BiletAPI.Application.IRepositories;
 using BiletAPI.Application.Models.Dtos;
 using BiletAPI.Domain.Entities;
+using BiletAPI.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,44 +11,50 @@ using System.Threading.Tasks;
 
 namespace BiletAPI.Application.Service.UserServices
 {
-    public class UserService
-    {
-        private readonly IUserRepo _userRepo;
+	public class UserService:IUserService
+	{
+		private readonly IUserRepo _userRepo;
+		private readonly IMapper _mapper;
+		public UserService(IUserRepo userRepo, IMapper mapper)
+		{
+			_userRepo = userRepo;
+			_mapper = mapper;
+		}
+		public async Task<string> Register(UserRegisterDto model)
+		{
+			if (model is not null)
+			{
+				var userModel = _mapper.Map<UserRegisterDto, User>(model);
+				var user = new User
+				{
+					ID = Guid.NewGuid(),
+					Status = Status.Active,
+					CreatedDate = DateTime.Now,
+					Name = userModel.Name,
+					Surname = userModel.Surname,
+					Age = userModel.Age,
+					Gender = userModel.Gender,
+					Mail = userModel.Mail,
+					PhoneNumber = userModel.PhoneNumber,
+					Password = userModel.Password
+				};
 
-        public UserService(IUserRepo userRepo)
-        {
-            _userRepo = userRepo;
-        }
-        public async Task<string> Register(UserRegisterDto model)
-        {
-            if (model is not null)
-            {
-                var user = new User
-                {
-                    ID = Guid.NewGuid(),
-                    Name = model.Name,
-                    Surname = model.Surname,
-                    Age = model.Age,
-                    Gender = model.Gender,
-                    Mail = model.Mail,
-                    PhoneNumber = model.PhoneNumber,
-                    Password = model.Password
-                };
-                _userRepo.Add(user);
-                _userRepo.Save();
-                return "Kullanıcı Başarıyla Eklendi";
-            }
-            return "Kullanıcı Eklenemedi";
-        }
-        public async Task<string> Login(LoginDto model)
-        {
-            if (model is not null)
-            {
-                var loggedUser = _userRepo.GetDefault(user => user.Mail == model.Mail && user.Password ==model.Password);
-                return "Giriş Başarıyla Gerçekleştirildi.";
-            }
+				_userRepo.Add(user);
+				_userRepo.Save();
+				return "Kullanıcı Başarıyla Eklendi";
+			}
+			return "Kullanıcı Eklenemedi";
+		}
+		public async Task<string> Login(LoginDto model)
+		{
+			if (model is not null)
+			{
+				var loginModel = _mapper.Map<LoginDto, User>(model);
+				var loggedUser = _userRepo.GetDefault(user => user.Mail == loginModel.Mail && user.Password == loginModel.Password);
+				return "Giriş İşlemi Başarıyla Gerçekleştirildi.";
+			}
 
-            return "Giriş gerçekleştirilemedi";
-        }
-    }
+			return "Giriş İşlemi Gerçekleştirilemedi";
+		}
+	}
 }

@@ -10,10 +10,24 @@ namespace BiletAPI.Infrastructure.Context
 {
 	public class BiletApiContextDb : DbContext
 	{
-        public BiletApiContextDb( DbContextOptions<BiletApiContextDb> options) : base(options)
-        {
-            
-        }
-        public DbSet<User> Users { get; set; }
-    }
+		public BiletApiContextDb(DbContextOptions<BiletApiContextDb> options) : base(options)
+		{
+
+		}
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Ticket>()
+				.HasOne(x => x.Expedition)
+				.WithOne(x => x.Ticket)
+				.HasForeignKey<Ticket>(x => x.ExpeditionId)
+				.OnDelete(DeleteBehavior.Restrict);
+			
+
+		}
+		public DbSet<User> Customers { get; set; }
+		public DbSet<Bus> Buses { get; set; }
+		public DbSet<City> Cities { get; set; }
+		public DbSet<Expedition> Expeditions { get; set; }
+		public DbSet<Ticket> Tickets { get; set; }
+	}
 }

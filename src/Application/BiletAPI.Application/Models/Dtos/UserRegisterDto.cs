@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BiletAPI.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,5 +25,7 @@ namespace BiletAPI.Application.Models.Dtos
         public float PhoneNumber { get; set; }
         [Required(ErrorMessage ="Lütfen şifrenizi giriniz")]
         public string Password { get; set; }
-    }
+		public Status Status { get; set; }
+
+	}
 }

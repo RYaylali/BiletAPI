@@ -1,3 +1,8 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 namespace BiletAPI.WebUI
 {
 	public class Program
@@ -7,8 +12,13 @@ namespace BiletAPI.WebUI
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
-			builder.Services.AddControllersWithViews();
-
+			builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+			builder.Services.AddAuthorization(options =>
+			{
+				options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+					.RequireAuthenticatedUser()
+					.Build();
+			});
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -23,12 +33,12 @@ namespace BiletAPI.WebUI
 			app.UseStaticFiles();
 
 			app.UseRouting();
-
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.MapControllerRoute(
 				name: "default",
-				pattern: "{controller=Home}/{action=Index}/{id?}");
+				pattern: "{controller=Login}/{action=Login}/{id?}");
 
 			app.Run();
 		}

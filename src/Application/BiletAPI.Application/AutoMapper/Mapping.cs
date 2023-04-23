@@ -16,8 +16,5 @@ namespace BiletAPI.Application.AutoMapper
             CreateMap<User, UserRegisterDto>().ReverseMap();
             CreateMap<User, LoginDto>().ReverseMap();
         }
-        public Mapping(string profileName) : base(profileName)
-        {
-        }
     }
 }

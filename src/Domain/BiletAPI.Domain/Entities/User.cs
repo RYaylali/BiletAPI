@@ -16,5 +16,14 @@ namespace BiletAPI.Domain.Entities
         public string Mail { get; set; }
         public float PhoneNumber { get; set; }
         public string Password { get; set; }
+        //BİR KİŞİ BİR SEFERDE YER ALABİLİR
+        public Guid ExpeditionID { get; set; }
+        public Expedition Expedition { get; set; }
+        //bir kişi birden fazla bilet alabilir
+        List<Ticket> Tickets { get; set; }
+        public User()
+        {
+            Tickets = new List<Ticket>();
+        }
     }
 }
